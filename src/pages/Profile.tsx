@@ -1,9 +1,77 @@
+import { useState, useEffect } from 'react';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import CoverOne from '../images/cover/cover-01.png';
-import userSix from '../images/user/user-06.png';
+import Cookies from 'js-cookie';
+import { jwtDecode } from "jwt-decode";
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+interface JwtPayload {
+  exp?: number;
+  iat?: number;
+}
+
+interface CustomJwtPayload extends JwtPayload {
+  user: {
+    id: string;
+    role: string;
+  };
+}
+
 const Profile = () => {
+  const [userId, setUserId] = useState<string | null>(null);
+  const [academyName, setAcademyName] = useState<string | null>(null);
+  const [academy, setAcademy] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<CustomJwtPayload>(token);
+        setUserId(decodedToken.user.id);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    const fetchAcademyName = async () => {
+      if (userId) {
+        try {
+          const response = await axios.get(`http://192.168.1.9:7000/api/academy-name/${userId}`);
+          setAcademyName(response.data.id);
+        } catch (error) {
+          console.error("Error fetching academy name:", error);
+        }
+      }
+    };
+    fetchAcademyName();
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchAcademyData = async () => {
+      if (userId) {
+        try {
+          const response = await axios.get(`http://192.168.1.9:7000/api/details/${userId}`);
+          if (response.data && response.data.details) {
+            setAcademy(response.data.details);
+          } else {
+            console.error("No data found for the selected academy");
+          }
+        } catch (error) {
+          console.error("Error fetching academy data:", error);
+        }
+      }
+    };
+    fetchAcademyData();
+  }, [userId]);
+
+  if (isLoading || !academy) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <Breadcrumb pageName="Profile" />
@@ -15,7 +83,7 @@ const Profile = () => {
             alt="profile cover"
             className="h-full w-full rounded-tl-sm rounded-tr-sm object-cover object-center"
           />
-          <div className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
+          {/* <div className="absolute bottom-1 right-1 z-10 xsm:bottom-4 xsm:right-4">
             <label
               htmlFor="cover"
               className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-1 px-2 text-sm font-medium text-white hover:bg-opacity-90 xsm:px-4"
@@ -46,12 +114,16 @@ const Profile = () => {
               </span>
               <span>Edit</span>
             </label>
-          </div>
+          </div> */}
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
           <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
             <div className="relative drop-shadow-2">
-              <img src={userSix} alt="profile" />
+            <img
+                src={`http://192.168.1.9:7000${academy.logo}`}
+                alt={`${academy.academyName}-photo`}
+                className="h-full w-full rounded-full object-cover"
+              />
               <label
                 htmlFor="profile"
                 className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2"
@@ -88,27 +160,27 @@ const Profile = () => {
           </div>
           <div className="mt-4">
             <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
-              Danish Heilium
+               {academy.coachName}
             </h3>
-            <p className="font-medium">Ui/Ux Designer</p>
+            <p className="font-medium">Coach</p>
             <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  259
+                  68
                 </span>
-                <span className="text-sm">Posts</span>
+                <span className="text-sm">Matchs</span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  129K
+                  30
                 </span>
-                <span className="text-sm">Followers</span>
+                <span className="text-sm">{academy.sports[0]}</span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  2K
+                  38
                 </span>
-                <span className="text-sm">Following</span>
+                <span className="text-sm">{academy.sports[1]}</span>
               </div>
             </div>
 

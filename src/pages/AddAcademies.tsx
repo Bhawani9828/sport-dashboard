@@ -71,7 +71,7 @@ function AddAcademies() {
     };
   return (
     <>
-      <Breadcrumb pageName="Add Academies" />
+      <Breadcrumb pageName="Add Student" />
 
       {/* <!-- ====== Calendar Section Start ====== --> */}
       <div className="w-full max-w-full rounded-md border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -186,7 +186,7 @@ function AddAcademies() {
             className="bg-[#ffbb40] hover:bg-[#006666] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Add Admin
+            Add Student
           </button>
         </div>
       </form>

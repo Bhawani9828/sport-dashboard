@@ -1,11 +1,88 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import ClickOutside from '../ClickOutside';
 import UserOne from '../../images/user/user-01.png';
+import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+  exp?: number;
+  iat?: number;
+}
+
+interface CustomJwtPayload extends JwtPayload {
+  user: {
+    id: string;
+    role: string;
+  };
+}
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const navigate = useNavigate();
 
+  const [userId, setUserId] = useState<string | null>(null);
+  const [academyName, setAcademyName] = useState<string | null>(null);
+  const [academy, setAcademy] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<CustomJwtPayload>(token);
+        setUserId(decodedToken.user.id);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    const fetchAcademyName = async () => {
+      if (userId) {
+        try {
+          const response = await axios.get(`http://192.168.1.9:7000/api/academy-name/${userId}`);
+          setAcademyName(response.data.id);
+        } catch (error) {
+          console.error("Error fetching academy name:", error);
+        }
+      }
+    };
+    fetchAcademyName();
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchAcademyData = async () => {
+      if (userId) {
+        try {
+          const response = await axios.get(`http://192.168.1.9:7000/api/details/${userId}`);
+          if (response.data && response.data.details) {
+            setAcademy(response.data.details);
+          } else {
+            console.error("No data found for the selected academy");
+          }
+        } catch (error) {
+          console.error("Error fetching academy data:", error);
+        }
+      }
+    };
+    fetchAcademyData();
+  }, [userId]);
+
+  const handleSignOut = () => {
+    try {
+      Cookies.remove("token");
+      // Redirect to login page after sign-out
+      toast.success("Logout successfully!");
+      navigate("/");
+    } catch (error: any) {
+      toast.error(`Error Logout: ${error.message}`);
+    }
+  };
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -13,16 +90,20 @@ const DropdownUser = () => {
         className="flex items-center gap-4"
         to="#"
       >
-        <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            Bhawani Singh
-          </span>
-          <span className="block text-xs">UX Designer</span>
+        <span className="hidden text-center lg:block">
+        <span className="block text-sm font-medium text-black dark:text-white">
+        {academy?.coachName || 'ram'}
+</span>
+          <span className="block text-xs">Coach</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
-        </span>
+  {academy && academy.logo ? (
+    <img src={`http://192.168.1.9:7000${academy.logo}`} alt="User" />
+  ) : (
+    <img src={UserOne} alt="Default User" />
+  )}
+</span>
 
         <svg
           className="hidden fill-current sm:block"
@@ -72,7 +153,7 @@ const DropdownUser = () => {
                 My Profile
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 to="#"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
@@ -92,7 +173,7 @@ const DropdownUser = () => {
                 </svg>
                 My Contacts
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 to="/settings"
@@ -119,7 +200,7 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+          <button   onClick={handleSignOut} className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <svg
               className="fill-current"
               width="22"

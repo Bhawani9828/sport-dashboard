@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import  { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import SidebarLinkGroup from './SidebarLinkGroup';
 import { GiBlockHouse } from "react-icons/gi";
-import { MdOutlineAddHomeWork } from "react-icons/md";
+import { GrGallery } from "react-icons/gr";
 import { GrUserAdd } from "react-icons/gr";
+import { RiCalendarEventLine } from "react-icons/ri";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -199,7 +199,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
 <li>
                 <NavLink
-                  to="/"
+                  to="/dashboard"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-[#ffbb40] dark:hover:bg-meta-4 ${
                     pathname.includes('dashboard') &&
                     'bg-[#ffbb40] dark:bg-meta-4'
@@ -236,14 +236,14 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           
               <li>
                 <NavLink
-                  to="/addacademies"
+                  to="/event"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-[#ffbb40] dark:hover:bg-meta-4 ${
-                    pathname.includes('addacademies') &&
+                    pathname.includes('event') &&
                     'bg-[#ffbb40] dark:bg-meta-4'
                   }`}
                 >
-               <MdOutlineAddHomeWork className='w-5 h-5' />
-                  Add Academies
+               <RiCalendarEventLine  className='w-5 h-5' />
+                  Add Event
                 </NavLink>
               </li>
 
@@ -257,6 +257,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 >
                <GrUserAdd className='w-5 h-5' />
                   Add User
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/detail"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-[#ffbb40] dark:hover:bg-meta-4 ${
+                    pathname.includes('detail') &&
+                    'bg-[#ffbb40] dark:bg-meta-4'
+                  }`}
+                >
+               <GrUserAdd className='w-5 h-5' />
+                  Academy Detail
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/gallery"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-[#ffbb40] dark:hover:bg-meta-4 ${
+                    pathname.includes('gallery') &&
+                    'bg-[#ffbb40] dark:bg-meta-4'
+                  }`}
+                >
+               <GrGallery className='w-5 h-5' />
+                  Gallery
                 </NavLink>
               </li>
           
@@ -290,7 +316,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Profile --> */}
 
               {/* <!-- Menu Item Forms --> */}
-              <SidebarLinkGroup
+              {/* <SidebarLinkGroup
                 activeCondition={
                   pathname === '/forms' || pathname.includes('forms')
                 }
@@ -360,7 +386,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </svg>
                       </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
+                
                       <div
                         className={`translate transform overflow-hidden ${
                           !open && 'hidden'
@@ -391,15 +417,15 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           </li>
                         </ul>
                       </div>
-                      {/* <!-- Dropdown Menu End --> */}
+                     
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
               {/* <!-- Menu Item Forms --> */}
 
               {/* <!-- Menu Item Tables --> */}
-              <li>
+              {/* <li>
                 <NavLink
                   to="/tables"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-[#ffbb40] dark:hover:bg-meta-4 ${
@@ -433,11 +459,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Tables
                 </NavLink>
-              </li>
+              </li> */}
               {/* <!-- Menu Item Tables --> */}
 
               {/* <!-- Menu Item Settings --> */}
-              <li>
+              {/* <li>
                 <NavLink
                   to="/settings"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-[#ffbb40] dark:hover:bg-meta-4 ${
@@ -476,7 +502,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </svg>
                   Settings
                 </NavLink>
-              </li>
+              </li> */}
               {/* <!-- Menu Item Settings --> */}
             </ul>
           </div>

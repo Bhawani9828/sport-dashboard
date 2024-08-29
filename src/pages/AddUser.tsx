@@ -208,7 +208,7 @@ function AddUser() {
           className="bg-[#ffbb40] hover:bg-[#006666] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         >
-          Add Admin
+          Add User
         </button>
       </div>
     </form>
