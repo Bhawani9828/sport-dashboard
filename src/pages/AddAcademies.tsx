@@ -29,7 +29,7 @@ function AddAcademies() {
       e.preventDefault();
       try {
         const response = await axios.post(
-          "https://localhost/api/auth/register",
+          "https://vclottery.in/sportshub/api/auth/register",
           formData
         );
         console.log("Admin added successfully:", response.data);

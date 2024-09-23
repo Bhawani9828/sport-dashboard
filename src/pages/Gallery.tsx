@@ -45,7 +45,7 @@ useEffect(() => {
     if (userId) {
       console.log("Fetching academy name for userId:", userId);
       try {
-        const response = await axios.get(`http://192.168.1.9:7000/api/academy-name/${userId}`);
+        const response = await axios.get(`https://vclottery.in/sportshub/api/academy-name/${userId}`);
         console.log("API response:", response.data);
         setAcademyName(response.data.name);
         console.log("Set academyName:", response.data.name);
@@ -92,7 +92,7 @@ useEffect(() => {
     }
 
     try {
-      const response = await fetch('http://192.168.1.9:7000/api/add-photos', {
+      const response = await fetch('https://vclottery.in/sportshub/api/add-photos', {
         method: 'POST',
         body: formData,
       });

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import ClickOutside from '../ClickOutside';
-import UserOne from '../../images/user/user-01.png';
+import UserOne from '../../images/user/admin.png';
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 
@@ -45,7 +45,7 @@ const DropdownUser = () => {
     const fetchAcademyName = async () => {
       if (userId) {
         try {
-          const response = await axios.get(`http://192.168.1.9:7000/api/academy-name/${userId}`);
+          const response = await axios.get(`https://vclottery.in/sportshub/api/academy-name/${userId}`);
           setAcademyName(response.data.id);
         } catch (error) {
           console.error("Error fetching academy name:", error);
@@ -59,7 +59,7 @@ const DropdownUser = () => {
     const fetchAcademyData = async () => {
       if (userId) {
         try {
-          const response = await axios.get(`http://192.168.1.9:7000/api/details/${userId}`);
+          const response = await axios.get(`https://vclottery.in/sportshub/api/details/${userId}`);
           if (response.data && response.data.details) {
             setAcademy(response.data.details);
           } else {
@@ -92,16 +92,16 @@ const DropdownUser = () => {
       >
         <span className="hidden text-center lg:block">
         <span className="block text-sm font-medium text-black dark:text-white">
-        {academy?.coachName || 'ram'}
+        {academy?.coachName || 'SuperAdmin'}
 </span>
           <span className="block text-xs">Coach</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
   {academy && academy.logo ? (
-    <img src={`http://192.168.1.9:7000${academy.logo}`} alt="User" />
+    <img src={`https://vclottery.in/sportshub${academy.logo}`} alt="User" />
   ) : (
-    <img src={UserOne} alt="Default User" />
+    <img className='h-12 w-12 rounded-full' src={UserOne} alt="Default User" />
   )}
 </span>
 

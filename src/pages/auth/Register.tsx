@@ -445,31 +445,30 @@ function Register() {
   ];
 
   const options = [
-    { value: 'Basketball', label: 'Basketball' },
-    { value: 'Soccer', label: 'Soccer' },
-    { value: 'Baseball', label: 'Baseball' },
-    { value: 'Tennis', label: 'Tennis' },
-    { value: 'Swimming', label: 'Swimming' },
-    { value: 'Cricket', label: 'Cricket' },
-    { value: 'Hockey', label: 'Hockey' },
-    { value: 'Badminton', label: 'Badminton' },
-    { value: 'Kabaddi', label: 'Kabaddi' },
+    { value: 'cricket', label: 'cricket' },
+    { value: 'badminton', label: 'badminton' },
+    { value: 'football', label: 'football' },
+    { value: 'martialarts', label: 'martialarts' },
+    { value: 'yoga', label: 'yoga' },
+    { value: 'swimming', label: 'swimming' },
+    { value: 'hockey', label: 'hockey' },
+    { value: 'skate ', label: 'skate ' },
     { value: 'Wrestling', label: 'Wrestling' },
-    { value: 'Boxing', label: 'Boxing' },
-    { value: 'Table Tennis', label: 'Table Tennis' },
-    { value: 'Archery', label: 'Archery' },
-    { value: 'Weightlifting', label: 'Weightlifting' },
-    { value: 'Basketball', label: 'Basketball' },
-    { value: 'Volleyball', label: 'Volleyball' },
-    { value: 'Chess', label: 'Chess' },
-    { value: 'Golf', label: 'Golf' },
-    { value: 'Cycling', label: 'Cycling' },
-    { value: 'Gymnastics', label: 'Gymnastics' },
-    { value: 'Squash', label: 'Squash' },
-    { value: 'Rowing', label: 'Rowing' },
-    { value: 'Judo', label: 'Judo' },
-    { value: 'Karate', label: 'Karate' },
-    { value: 'Taekwondo', label: 'Taekwondo' },
+    // { value: 'Boxing', label: 'Boxing' },
+    // { value: 'Table Tennis', label: 'Table Tennis' },
+    // { value: 'Archery', label: 'Archery' },
+    // { value: 'Weightlifting', label: 'Weightlifting' },
+    // { value: 'Basketball', label: 'Basketball' },
+    // { value: 'Volleyball', label: 'Volleyball' },
+    // { value: 'Chess', label: 'Chess' },
+    // { value: 'Golf', label: 'Golf' },
+    // { value: 'Cycling', label: 'Cycling' },
+    // { value: 'Gymnastics', label: 'Gymnastics' },
+    // { value: 'Squash', label: 'Squash' },
+    // { value: 'Rowing', label: 'Rowing' },
+    // { value: 'Judo', label: 'Judo' },
+    // { value: 'Karate', label: 'Karate' },
+    // { value: 'Taekwondo', label: 'Taekwondo' },
   ];
 
   const styles = {
@@ -479,6 +478,16 @@ function Register() {
         backgroundColor: 'papayawhip',
       };
     },
+    option: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? '#ffbb40'
+        : state.isFocused
+          ? '#ffdd40'
+          : '#ffffff',
+      color: state.isSelected ? '#000000' : '#333333',
+      marginBottom: 10,
+    }),
   };
 
   const handleSportsChange = (
@@ -516,7 +525,7 @@ function Register() {
       console.log('Payload being sent:', JSON.stringify(formData));
 
       const response = await fetch(
-        'http://192.168.1.9:7000/api/register-academy',
+        'https://vclottery.in/sportshub/api/register-academy',
         {
           method: 'POST',
           headers: {
@@ -661,23 +670,6 @@ function Register() {
                 <div className="flex space-x-4">
                   <div className="flex-1">
                     <label
-                      htmlFor="email"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Email
-                    </label>
-                    <div className="mt-2">
-                      <input
-                        id="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#006666] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#ffbb40] sm:text-sm sm:leading-6"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex-1">
-                    <label
                       htmlFor="coachName"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
@@ -693,10 +685,52 @@ function Register() {
                       />
                     </div>
                   </div>
+                  <div className="flex-1">
+                    <label
+                      htmlFor="area"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Area
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        id="area"
+                        value={formData.area}
+                        onChange={handleChange}
+                        className="block w-full ps-2 rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-[#006666] focus:ring-2 focus:ring-inset focus:ring-[#ffbb40] sm:text-sm sm:leading-6"
+                      >
+                        <option className="bg-[#006666] " value="">
+                          Select Area
+                        </option>
+                        {cities.map((city) => (
+                          <option key={city} value={city}>
+                            {city}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="flex space-x-4">
-                  <div className="flex-1">
+                <div className="flex flex-wrap md:flex-nowrap md:space-x-4 ">
+                  <div className="w-full md:w-6/12 md:mb-0 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Email
+                    </label>
+                    <div className="mt-2">
+                      <input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#006666] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#ffbb40] sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full md:w-6/12  ">
                     <label
                       htmlFor="address"
                       className="block text-sm font-medium leading-6 text-gray-900"
@@ -713,55 +747,29 @@ function Register() {
                       />
                     </div>
                   </div>
-
-                  <div className="flex-1">
-                    <label
-                      htmlFor="area"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Area
-                    </label>
-                    <div className="mt-2">
-                      <select
-                        id="area"
-                        value={formData.area}
-                        onChange={handleChange}
-                        className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#006666] focus:ring-2 focus:ring-inset focus:ring-[#ffbb40] sm:text-sm sm:leading-6"
-                      >
-                        <option className="bg-[#006666] " value="">
-                          Select Area
-                        </option>
-                        {cities.map((city) => (
-                          <option key={city} value={city}>
-                            {city}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
                 </div>
 
-                <div className="flex space-x-4">
-                  <div className="flex-1">
+                <div className="flex flex-wrap md:flex-nowrap md:space-x-4">
+                  <div className=" w-full md:w-6/12 md:mb-0 mb-5">
                     <label
-                      htmlFor="affiliations"
+                      htmlFor="batchTimings"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Affiliations
+                      Batch Timings (Comma separated)
                     </label>
                     <div className="mt-2">
                       <input
-                        id="affiliations"
+                        id="batchTimings"
                         type="text"
-                        value={formData.affiliations}
+                        value={formData.batchTimings.join(', ')}
                         onChange={handleChange}
                         className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#006666] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#ffbb40] sm:text-sm sm:leading-6"
+                        placeholder="e.g., 9 AM - 11 AM, 4 PM - 6 PM"
                       />
                     </div>
                   </div>
-                 
 
-                  <div className="flex-1">
+                  <div className=" w-full md:w-6/12 ">
                     <label
                       htmlFor="sports"
                       className="block text-sm font-medium leading-6 text-gray-900"
@@ -806,23 +814,21 @@ function Register() {
                   </div>
                   <div className="flex-1">
                     <label
-                      htmlFor="batchTimings"
+                      htmlFor="affiliations"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Batch Timings (Comma separated)
+                      Affiliations
                     </label>
                     <div className="mt-2">
                       <input
-                        id="batchTimings"
+                        id="affiliations"
                         type="text"
-                        value={formData.batchTimings.join(', ')}
+                        value={formData.affiliations}
                         onChange={handleChange}
                         className="block w-full ps-2 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-[#006666] placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#ffbb40] sm:text-sm sm:leading-6"
-                        placeholder="e.g., 9 AM - 11 AM, 4 PM - 6 PM"
                       />
                     </div>
                   </div>
-                  
                 </div>
 
                 <button

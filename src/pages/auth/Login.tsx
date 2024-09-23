@@ -22,18 +22,51 @@ function Login() {
       }));
     };
   
-    const handleSubmit = async (e:any) => {
+    const handleSubmit = async (e: any) => {
       e.preventDefault();
+    
+      // Static superadmin credentials
+      const superadminEmail = "superadmin@gmail.com";
+      const superadminPassword = "super123";
+    
+      if (formData.email === superadminEmail && formData.password === superadminPassword) {
+        // Set a mock JWT token with the role "superadmin"
+        const mockToken = {
+          user: {
+            role: "superadmin",
+          },
+        };
+    
+        // Encode the token (simulated for static login)
+        const encodedToken = btoa(JSON.stringify(mockToken));
+        Cookies.set("token", `mock.${encodedToken}.signature`);
+    
+        toast.success("Superadmin signed in successfully!", {
+          position: "top-right",
+          autoClose: 2000,
+          onClose: () => {
+            navigate("/dashboard");
+          },
+        });
+    
+        // Reset form data
+        setFormData({
+          email: "",
+          password: "",
+        });
+        return;
+      }
+    
       try {
         const response = await axios.post(
-          "http://192.168.1.9:7000/api/auth/login",
+          "https://vclottery.in/sportshub/api/auth/login",
           formData
         );
         console.log("Admin signin successfully:", response.data);
-  
+    
         // Save token in cookies
         Cookies.set("token", response.data.token);
-  
+    
         // Fetch user role
         const token = response.data.token;
         const userResponse = await axios.get(
@@ -46,10 +79,10 @@ function Login() {
         );
         const role = userResponse.data.user.role;
         console.log("User role:", role);
-  
+    
         // Save user role in cookies
         Cookies.set("userRole", role);
-  
+    
         if (role === "superadmin") {
           toast.success("Superadmin signed in successfully!", {
             position: "top-right",
@@ -67,12 +100,12 @@ function Login() {
             },
           });
         }
-  
+    
         setFormData({
           email: "",
           password: "",
         });
-      } catch (error:any) {
+      } catch (error: any) {
         console.log("data::::::", error);
         if (error.response) {
           console.error(
@@ -92,6 +125,8 @@ function Login() {
         }
       }
     };
+    
+    
   return (
    <>
     <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">

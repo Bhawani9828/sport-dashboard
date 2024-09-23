@@ -41,7 +41,7 @@ const Profile = () => {
     const fetchAcademyName = async () => {
       if (userId) {
         try {
-          const response = await axios.get(`http://192.168.1.9:7000/api/academy-name/${userId}`);
+          const response = await axios.get(`https://vclottery.in/sportshub/api/academy-name/${userId}`);
           setAcademyName(response.data.id);
         } catch (error) {
           console.error("Error fetching academy name:", error);
@@ -55,7 +55,7 @@ const Profile = () => {
     const fetchAcademyData = async () => {
       if (userId) {
         try {
-          const response = await axios.get(`http://192.168.1.9:7000/api/details/${userId}`);
+          const response = await axios.get(`https://vclottery.in/sportshub/api/details/${userId}`);
           if (response.data && response.data.details) {
             setAcademy(response.data.details);
           } else {
@@ -120,7 +120,7 @@ const Profile = () => {
           <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
             <div className="relative drop-shadow-2">
             <img
-                src={`http://192.168.1.9:7000${academy.logo}`}
+                src={`https://vclottery.in/sportshub${academy.logo}`}
                 alt={`${academy.academyName}-photo`}
                 className="h-full w-full rounded-full object-cover"
               />

@@ -525,7 +525,7 @@ formDataToSend.append("eventCities", formData.eventCities);
 
     try {
         const response = await axios.post(
-            `http://192.168.1.9:7000/api/events/${userId}`,
+            `https://vclottery.in/sportshub/api/events/${userId}`,
             formDataToSend,
             {
                 headers: {
